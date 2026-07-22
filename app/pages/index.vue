@@ -67,17 +67,17 @@ watch(appState, (newState) => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-[var(--color-ui-bg)]">
+  <main class="min-h-screen">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
       <!-- Header -->
       <header class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
-          <div class="size-10 rounded-[var(--radius-md)] bg-[var(--color-brand-500)] flex items-center justify-center shrink-0">
+          <div class="size-10 rounded-md bg-brand-500 flex items-center justify-center shrink-0">
             <UIcon name="i-lucide-check" class="size-5 text-white" />
           </div>
           <div>
-            <h1 class="text-lg sm:text-xl font-bold text-[var(--color-ui-text)]">Task Manager</h1>
-            <p class="text-sm text-[var(--color-ui-muted)]">Manage your daily tasks efficiently</p>
+            <h1 class="text-lg sm:text-xl font-bold">Task Manager</h1>
+            <p class="text-sm text-muted">Manage your daily tasks efficiently</p>
           </div>
         </div>
 
@@ -97,12 +97,12 @@ watch(appState, (newState) => {
           class="card p-4 sm:p-5"
         >
           <div class="flex items-center justify-between mb-3">
-            <div class="size-10 rounded-[var(--radius-md)] flex items-center justify-center" :class="card.bg">
+            <div class="size-10 rounded-md flex items-center justify-center" :class="card.bg">
               <UIcon :name="card.icon" class="size-5" :class="card.iconColor" />
             </div>
           </div>
-          <p class="text-2xl font-bold text-[var(--color-ui-text)]">{{ card.value }}</p>
-          <p class="text-sm text-[var(--color-ui-muted)] mt-0.5">{{ card.label }}</p>
+          <p class="text-2xl font-bold">{{ card.value }}</p>
+          <p class="text-sm text-muted mt-0.5">{{ card.label }}</p>
         </div>
       </section>
 
@@ -110,11 +110,11 @@ watch(appState, (newState) => {
       <section class="mb-6">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
           <div class="relative flex-1 w-full sm:max-w-xs">
-            <UIcon name="i-lucide-search" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[var(--color-ui-subtle)] pointer-events-none" />
             <UInput
               :model-value="searchQuery"
+              icon="i-lucide-search"
               placeholder="Search tasks..."
-              class="w-full pl-9"
+              class="w-full"
               size="lg"
               variant="outline"
               @update:model-value="handleSearch"
@@ -140,26 +140,6 @@ watch(appState, (newState) => {
             </button>
           </div>
 
-          <div class="flex items-center gap-1 bg-[var(--color-ui-surface)] rounded-[var(--radius-md)] p-1 border border-[var(--color-ui-border)] shadow-sm">
-            <span class="px-2 text-xs text-[var(--color-ui-subtle)] font-medium">State:</span>
-            <button
-              v-for="s in ([
-                { value: 'data', label: 'Data' },
-                { value: 'loading', label: 'Loading' },
-                { value: 'empty', label: 'Empty' },
-                { value: 'error', label: 'Error' },
-              ] as const)"
-              :key="s.value"
-              class="px-2 py-1 text-xs font-medium rounded-[var(--radius-sm)] transition-all duration-150"
-              :class="appState === s.value
-                ? 'bg-[var(--color-brand-50)] text-[var(--color-brand-600)]'
-                : 'text-[var(--color-ui-subtle)] hover:text-[var(--color-ui-text)]'"
-              @click="handleSetAppState(s.value)"
-            >
-              {{ s.label }}
-            </button>
-          </div>
-
           <UButton
             color="primary"
             size="lg"
@@ -177,7 +157,7 @@ watch(appState, (newState) => {
           <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-red-50)] flex items-center justify-center">
             <UIcon name="i-lucide-alert-circle" class="size-8 text-red-500" />
           </div>
-          <h3 class="text-lg font-semibold text-[var(--color-ui-text)]">Something went wrong</h3>
+          <h3 class="text-lg font-semibold">Something went wrong</h3>
           <UButton color="primary" variant="outline" label="Try Again" @click="handleRetry" />
         </div>
       </div>
@@ -208,7 +188,7 @@ watch(appState, (newState) => {
           <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-brand-50)] flex items-center justify-center">
             <UIcon name="i-lucide-clipboard-list" class="size-8 text-[var(--color-brand-500)]" />
           </div>
-          <h3 class="text-lg font-semibold text-[var(--color-ui-text)]">No tasks yet</h3>
+          <h3 class="text-lg font-semibold">No tasks yet</h3>
           <p class="text-sm text-[var(--color-ui-subtle)] max-w-xs text-center">Get started by creating your first task</p>
           <UButton color="primary" label="+ New Task" @click="openAddModal" class="mt-2" />
         </div>
@@ -220,7 +200,7 @@ watch(appState, (newState) => {
           <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-sky-50)] flex items-center justify-center">
             <UIcon name="i-lucide-filter" class="size-8 text-[var(--color-sky-600)]" />
           </div>
-          <h3 class="text-lg font-semibold text-[var(--color-ui-text)]">No tasks match this filter</h3>
+          <h3 class="text-lg font-semibold">No tasks match this filter</h3>
           <p class="text-sm text-[var(--color-ui-subtle)] max-w-xs text-center">Try changing the filter or create a new task</p>
         </div>
       </div>

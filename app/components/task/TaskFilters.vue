@@ -55,20 +55,5 @@ const states: { value: AppState; label: string }[] = [
         {{ f.label }}
       </button>
     </div>
-
-    <div class="flex items-center gap-1 bg-[var(--color-ui-surface)] rounded-[var(--radius-md)] p-1 border border-[var(--color-ui-border)] shadow-sm ml-auto">
-      <span class="px-2 text-xs text-[var(--color-ui-subtle)] font-medium">State:</span>
-      <button
-        v-for="s in states"
-        :key="s.value"
-        class="px-2 py-1 text-xs font-medium rounded-[var(--radius-sm)] transition-all duration-150"
-        :class="appState === s.value
-          ? 'bg-[var(--color-brand-50)] text-[var(--color-brand-600)]'
-          : 'text-[var(--color-ui-subtle)] hover:text-[var(--color-ui-text)]'"
-        @click="emit('update:appState', s.value)"
-      >
-        {{ s.label }}
-      </button>
-    </div>
   </div>
 </template>

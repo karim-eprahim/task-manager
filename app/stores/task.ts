@@ -54,6 +54,7 @@ export const useTaskStore = defineStore('task', () => {
   async function updateTask(id: string, data: TaskFormData) {
     const index = tasks.value.findIndex(t => t.id === id)
     if (index === -1) return
+    // @ts-ignore
     const updated = await taskService.update(tasks.value[index], data)
     tasks.value[index] = updated
   }

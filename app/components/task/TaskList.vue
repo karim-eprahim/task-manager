@@ -27,7 +27,7 @@ const emit = defineEmits<{
       <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-red-50)] flex items-center justify-center">
         <UIcon name="i-lucide-alert-circle" class="size-8 text-red-500" />
       </div>
-      <h3 class="text-lg font-semibold text-[var(--color-ui-text)]">Something went wrong</h3>
+      <h3 class="text-lg font-semibold">Something went wrong</h3>
       <UButton color="primary" variant="outline" label="Try Again" @click="emit('retry')" />
     </div>
   </div>

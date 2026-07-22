@@ -39,7 +39,7 @@ function formatDate(dateStr: string): string {
 
         <div class="flex-1 min-w-0">
           <h3
-            class="text-sm font-semibold text-[var(--color-ui-text)]"
+            class="text-sm font-semibold"
             :class="isCompleted ? 'line-through text-[var(--color-ui-subtle)]' : ''"
           >
             {{ task.title }}

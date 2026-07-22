@@ -1,4 +1,5 @@
 import type { Task, TaskFormData, TaskFilter, TaskStatus, AppState } from '~/types/task'
+import { useTaskStore } from '~/stores/task'
 
 export function useTasks() {
   const store = useTaskStore()
