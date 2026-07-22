@@ -80,24 +80,6 @@ export const useTaskStore = defineStore('task', () => {
     tasks.value = tasks.value.filter(t => t.id !== id)
   }
 
-  function seedDemoData() {
-    if (tasks.value.length > 0) return
-
-    const demo: TaskFormData[] = [
-      { title: 'Design system audit', description: 'Review and audit the current design system components', status: 'in-progress', dueDate: '2026-07-25' },
-      { title: 'Client onboarding call', description: 'Prepare for the client onboarding meeting', status: 'pending', dueDate: '2026-07-23' },
-      { title: 'Ship invoice module', description: 'Finalize and ship the invoice module to production', status: 'done', dueDate: '2026-07-20' },
-      { title: 'Quarterly report draft', description: 'Compile metrics from analytics and finance teams', status: 'pending', dueDate: '2026-07-28' },
-      { title: 'Update API documentation', description: 'Document the new API endpoints', status: 'in-progress', dueDate: '2026-07-26' },
-      { title: 'Code review sprint 12', description: 'Review pull requests for sprint 12', status: 'done', dueDate: '2026-07-22' },
-    ]
-
-    demo.forEach(async (data) => {
-      const task = await taskService.create(data)
-      tasks.value.push(task)
-    })
-  }
-
   return {
     tasks,
     filter,
@@ -112,7 +94,6 @@ export const useTaskStore = defineStore('task', () => {
     updateTask,
     toggleTaskStatus,
     deleteTask,
-    seedDemoData,
   }
 }, {
   persist: {

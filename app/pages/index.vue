@@ -1,20 +1,15 @@
 <script setup lang="ts">
-const {
-  store,
-  isFormModalOpen,
-  editingTask,
-  isConfirmDeleteOpen,
-  openAddModal,
-  openEditModal,
-  closeFormModal,
-  handleSubmit,
-  confirmDelete,
-  handleDelete,
-  handleToggleStatus,
-  handleFilterChange,
-  handleSearch,
-  handleSetAppState,
-} = useTasks()
+import type { Task, TaskFormData, TaskFilter, AppState } from '~/types/task'
+import { useTaskStore } from '~/stores/task'
+
+const store = useTaskStore()
+const toast = useToast()
+
+const isFormModalOpen = ref(false)
+const editingTask = ref<Task | null>(null)
+const isConfirmDeleteOpen = ref(false)
+const deletingTaskId = ref<string | null>(null)
+const isSubmitting = ref(false)
 
 const { filteredTasks, filter, searchQuery, appState, stats } = storeToRefs(store)
 
@@ -27,31 +22,94 @@ const statCards = computed(() => [
     label: 'All Tasks',
     value: stats.value.all,
     icon: 'i-lucide-list',
-    bg: 'bg-[var(--color-brand-50)]',
-    iconColor: 'text-[var(--color-brand-500)]',
+    bg: 'bg-brand-50',
+    iconColor: 'text-brand-500',
   },
   {
     label: 'Pending',
     value: stats.value.pending,
     icon: 'i-lucide-clock',
-    bg: 'bg-[var(--color-amber-50)]',
-    iconColor: 'text-[var(--color-amber-500)]',
+    bg: 'bg-amber-50',
+    iconColor: 'text-amber-500',
   },
   {
     label: 'In Progress',
     value: stats.value['in-progress'],
     icon: 'i-lucide-play-circle',
-    bg: 'bg-[var(--color-sky-50)]',
-    iconColor: 'text-[var(--color-sky-600)]',
+    bg: 'bg-sky-50',
+    iconColor: 'text-sky-600',
   },
   {
     label: 'Done',
     value: stats.value.done,
     icon: 'i-lucide-check-circle-2',
-    bg: 'bg-[var(--color-green-50)]',
-    iconColor: 'text-[var(--color-green-500)]',
+    bg: 'bg-green-50',
+    iconColor: 'text-green-500',
   },
 ])
+
+function openAddModal() {
+  editingTask.value = null
+  isFormModalOpen.value = true
+}
+
+function openEditModal(task: Task) {
+  editingTask.value = task
+  isFormModalOpen.value = true
+}
+
+function closeFormModal() {
+  isFormModalOpen.value = false
+  editingTask.value = null
+}
+
+async function handleSubmit(data: TaskFormData) {
+  isSubmitting.value = true
+  try {
+    if (editingTask.value) {
+      await store.updateTask(editingTask.value.id, data)
+      toast.add({ title: 'Task updated', description: `"${data.title}" updated`, color: 'success' })
+    } else {
+      await store.addTask(data)
+      toast.add({ title: 'Task added', description: `"${data.title}" added`, color: 'success' })
+    }
+    closeFormModal()
+  } catch {
+    toast.add({ title: 'Something went wrong', color: 'error' })
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+function confirmDelete(taskId: string) {
+  deletingTaskId.value = taskId
+  isConfirmDeleteOpen.value = true
+}
+
+function handleDelete() {
+  if (deletingTaskId.value) {
+    store.deleteTask(deletingTaskId.value)
+    toast.add({ title: 'Task deleted', color: 'success' })
+  }
+  isConfirmDeleteOpen.value = false
+  deletingTaskId.value = null
+}
+
+function handleToggleStatus(taskId: string) {
+  store.toggleTaskStatus(taskId)
+}
+
+function handleFilterChange(newFilter: TaskFilter) {
+  store.setFilter(newFilter)
+}
+
+function handleSearch(query: string) {
+  store.setSearchQuery(query)
+}
+
+function handleSetAppState(state: AppState) {
+  store.setAppState(state)
+}
 
 function handleRetry() {
   handleSetAppState('data')

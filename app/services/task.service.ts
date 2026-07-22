@@ -7,7 +7,7 @@ function generateId(): string {
 }
 
 function getTodayDate(): string {
-  return new Date().toISOString().split('T')[0]
+  return new Date().toISOString().split('T')[0] || ''
 }
 
 export const taskService = {

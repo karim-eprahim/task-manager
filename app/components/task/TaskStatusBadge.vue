@@ -9,17 +9,17 @@ const config = computed(() => {
   const map: Record<TaskStatus, { label: string; class: string; icon: string }> = {
     pending: {
       label: 'Pending',
-      class: 'bg-[var(--color-amber-50)] text-[var(--color-amber-500)]',
+      class: 'bg-amber-50 text-amber-500',
       icon: 'i-lucide-clock',
     },
     'in-progress': {
       label: 'In Progress',
-      class: 'bg-[var(--color-sky-50)] text-[var(--color-sky-600)]',
+      class: 'bg-sky-50 text-sky-600',
       icon: 'i-lucide-play-circle',
     },
     done: {
       label: 'Done',
-      class: 'bg-[var(--color-green-50)] text-[var(--color-green-500)]',
+      class: 'bg-green-50 text-green-500',
       icon: 'i-lucide-check-circle-2',
     },
   }
@@ -28,7 +28,7 @@ const config = computed(() => {
 </script>
 
 <template>
-  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-medium rounded-[var(--radius-full)]" :class="config.class">
+  <span class="inline-flex items-center gap-1 px-2.5 py-1 border text-xs font-medium rounded-full" :class="config.class">
     <UIcon :name="config.icon" class="size-3" />
     {{ config.label }}
   </span>

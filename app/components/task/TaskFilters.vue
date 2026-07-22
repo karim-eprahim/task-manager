@@ -20,18 +20,12 @@ const filters: { value: TaskFilter; label: string }[] = [
   { value: 'done', label: 'Done' },
 ]
 
-const states: { value: AppState; label: string }[] = [
-  { value: 'data', label: 'Data' },
-  { value: 'loading', label: 'Loading' },
-  { value: 'empty', label: 'Empty' },
-  { value: 'error', label: 'Error' },
-]
 </script>
 
 <template>
   <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
     <div class="relative flex-1 w-full sm:max-w-xs">
-      <UIcon name="i-lucide-search" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[var(--color-ui-subtle)] pointer-events-none" />
+      <UIcon name="i-lucide-search" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-subtle pointer-events-none" />
       <UInput
         :model-value="searchQuery"
         placeholder="Search tasks..."
@@ -42,14 +36,14 @@ const states: { value: AppState; label: string }[] = [
       />
     </div>
 
-    <div class="flex items-center gap-1.5 bg-[var(--color-ui-surface)] rounded-[var(--radius-md)] p-1 border border-[var(--color-ui-border)] shadow-sm flex-wrap">
+    <div class="flex items-center gap-1.5 bg-ui-surface rounded-md p-1 border border-ui-border shadow-sm flex-wrap">
       <button
         v-for="f in filters"
         :key="f.value"
-        class="px-3 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+        class="px-3 py-1.5 text-sm font-medium rounded-sm transition-all duration-150"
         :class="modelValue === f.value
-          ? 'bg-[var(--color-brand-50)] text-[var(--color-brand-600)]'
-          : 'text-[var(--color-ui-muted)] hover:text-[var(--color-ui-text)] hover:bg-[var(--color-ui-hover)]'"
+          ? 'bg-brand-50 text-brand-600'
+          : 'text-muted hover:text-text hover:bg-hover'"
         @click="emit('update:modelValue', f.value)"
       >
         {{ f.label }}

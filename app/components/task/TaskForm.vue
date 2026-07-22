@@ -17,7 +17,7 @@ const formData = ref<TaskFormData>({
   title: '',
   description: '',
   status: 'pending',
-  dueDate: new Date().toISOString().split('T')[0],
+  dueDate: new Date().toISOString().split('T')[0] || '',
 })
 
 const titleError = ref<string | null>(null)
@@ -36,7 +36,7 @@ watchEffect(() => {
         title: '',
         description: '',
         status: 'pending',
-        dueDate: new Date().toISOString().split('T')[0],
+        dueDate: new Date().toISOString().split('T')[0] || '',
       }
     }
     titleError.value = null
@@ -73,7 +73,7 @@ const title = computed(() => props.task ? 'Edit Task' : 'Add Task')
   >
     <template #body>
       <div class="space-y-4">
-        <UFormField label="Title" :error="titleError" required>
+        <UFormField label="Title" :error="titleError || false" required>
           <UInput
             v-model="formData.title"
             placeholder="Enter task title"
