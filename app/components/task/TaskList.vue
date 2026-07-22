@@ -24,7 +24,7 @@ const emit = defineEmits<{
 
   <div v-else-if="appState === 'error'" class="py-12">
     <div class="flex flex-col items-center justify-center gap-4">
-      <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-red-50)] flex items-center justify-center">
+      <div class="size-16 rounded-lg bg-red-50 flex items-center justify-center">
         <UIcon name="i-lucide-alert-circle" class="size-8 text-red-500" />
       </div>
       <h3 class="text-lg font-semibold">Something went wrong</h3>

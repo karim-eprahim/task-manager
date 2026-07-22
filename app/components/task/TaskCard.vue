@@ -20,7 +20,7 @@ function formatDate(dateStr: string): string {
 </script>
 
 <template>
-  <div class="card group">
+  <div class="card group shadow-md hover:shadow-none transition-all duration-200">
     <div class="p-4 sm:p-5">
       <div class="flex items-start gap-3">
         <button

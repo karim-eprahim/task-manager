@@ -148,7 +148,7 @@ watch(appState, (newState) => {
         <div
           v-for="card in statCards"
           :key="card.label"
-          class="card p-4 sm:p-5"
+          class="card p-4 sm:p-5 shadow-md"
         >
           <div class="flex items-center justify-between mb-3">
             <div class="size-10 rounded-md flex items-center justify-center" :class="card.bg">
@@ -199,7 +199,7 @@ watch(appState, (newState) => {
             size="lg"
             label="New Task"
             icon="i-lucide-plus"
-            class="shrink-0 ml-auto"
+            class="shrink-0 ml-auto lg:px-8 text-white"
             @click="openAddModal"
           />
         </div>
