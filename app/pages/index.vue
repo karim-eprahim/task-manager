@@ -121,7 +121,7 @@ watch(appState, (newState) => {
             />
           </div>
 
-          <div class="flex items-center gap-1.5 bg-[var(--color-ui-surface)] rounded-[var(--radius-md)] p-1 border border-[var(--color-ui-border)] shadow-sm flex-wrap">
+          <div class="flex items-center gap-1.5 bg-ui-surface rounded-md p-1 border border-ui-border shadow-sm flex-wrap">
             <button
               v-for="f in ([
                 { value: 'all', label: 'All' },
@@ -130,10 +130,10 @@ watch(appState, (newState) => {
                 { value: 'done', label: 'Done' },
               ] as const)"
               :key="f.value"
-              class="px-3 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+              class="px-3 py-1.5 text-sm font-medium rounded-sm transition-all duration-150"
               :class="filter === f.value
-                ? 'bg-[var(--color-brand-50)] text-[var(--color-brand-600)]'
-                : 'text-[var(--color-ui-muted)] hover:text-[var(--color-ui-text)] hover:bg-[var(--color-ui-hover)]'"
+                ? 'bg-brand-50 text-brand-600'
+                : 'text-muted hover:text-text hover:bg-hover'"
               @click="handleFilterChange(f.value)"
             >
               {{ f.label }}
@@ -143,7 +143,7 @@ watch(appState, (newState) => {
           <UButton
             color="primary"
             size="lg"
-            label="+ New Task"
+            label="New Task"
             icon="i-lucide-plus"
             class="shrink-0 ml-auto"
             @click="openAddModal"
@@ -154,7 +154,7 @@ watch(appState, (newState) => {
       <!-- Error State -->
       <div v-if="appState === 'error'" class="py-12">
         <div class="flex flex-col items-center justify-center gap-4">
-          <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-red-50)] flex items-center justify-center">
+          <div class="size-16 rounded-lg bg-red-50 flex items-center justify-center">
             <UIcon name="i-lucide-alert-circle" class="size-8 text-red-500" />
           </div>
           <h3 class="text-lg font-semibold">Something went wrong</h3>
@@ -165,8 +165,8 @@ watch(appState, (newState) => {
       <!-- Loading State -->
       <div v-else-if="appState === 'loading'" class="py-12">
         <div class="flex flex-col items-center justify-center gap-4 py-20">
-          <UIcon name="i-lucide-loader-circle" class="size-10 text-[var(--color-brand-500)] animate-spin" />
-          <p class="text-[var(--color-ui-subtle)] text-sm">Loading...</p>
+          <UIcon name="i-lucide-loader-circle" class="size-10 text-brand-500 animate-spin" />
+          <p class="text-subtle text-sm">Loading...</p>
         </div>
       </div>
 
@@ -185,11 +185,11 @@ watch(appState, (newState) => {
       <!-- Empty State -->
       <div v-else-if="filteredTasks.length === 0 && searchQuery.trim() === '' && filter === 'all'" class="py-12">
         <div class="flex flex-col items-center justify-center gap-4 py-16">
-          <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-brand-50)] flex items-center justify-center">
-            <UIcon name="i-lucide-clipboard-list" class="size-8 text-[var(--color-brand-500)]" />
+          <div class="size-16 rounded-lg bg-brand-50 flex items-center justify-center">
+            <UIcon name="i-lucide-clipboard-list" class="size-8 text-brand-500" />
           </div>
           <h3 class="text-lg font-semibold">No tasks yet</h3>
-          <p class="text-sm text-[var(--color-ui-subtle)] max-w-xs text-center">Get started by creating your first task</p>
+          <p class="text-sm text-subtle max-w-xs text-center">Get started by creating your first task</p>
           <UButton color="primary" label="+ New Task" @click="openAddModal" class="mt-2" />
         </div>
       </div>
@@ -197,11 +197,11 @@ watch(appState, (newState) => {
       <!-- No Filtered Results -->
       <div v-else class="py-12">
         <div class="flex flex-col items-center justify-center gap-4 py-16">
-          <div class="size-16 rounded-[var(--radius-lg)] bg-[var(--color-sky-50)] flex items-center justify-center">
-            <UIcon name="i-lucide-filter" class="size-8 text-[var(--color-sky-600)]" />
+          <div class="size-16 rounded-lg bg-sky-50 flex items-center justify-center">
+            <UIcon name="i-lucide-filter" class="size-8 text-sky-600" />
           </div>
           <h3 class="text-lg font-semibold">No tasks match this filter</h3>
-          <p class="text-sm text-[var(--color-ui-subtle)] max-w-xs text-center">Try changing the filter or create a new task</p>
+          <p class="text-sm text-subtle max-w-xs text-center">Try changing the filter or create a new task</p>
         </div>
       </div>
 
