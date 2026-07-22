@@ -1,0 +1,74 @@
+<script setup lang="ts">
+import type { TaskFilter, AppState } from '~/types/task'
+
+defineProps<{
+  modelValue: TaskFilter
+  searchQuery: string
+  appState: AppState
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: TaskFilter]
+  'update:searchQuery': [value: string]
+  'update:appState': [value: AppState]
+}>()
+
+const filters: { value: TaskFilter; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'in-progress', label: 'In Progress' },
+  { value: 'done', label: 'Done' },
+]
+
+const states: { value: AppState; label: string }[] = [
+  { value: 'data', label: 'Data' },
+  { value: 'loading', label: 'Loading' },
+  { value: 'empty', label: 'Empty' },
+  { value: 'error', label: 'Error' },
+]
+</script>
+
+<template>
+  <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+    <div class="relative flex-1 w-full sm:max-w-xs">
+      <UIcon name="i-lucide-search" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[var(--color-ui-subtle)] pointer-events-none" />
+      <UInput
+        :model-value="searchQuery"
+        placeholder="Search tasks..."
+        class="w-full pl-9"
+        size="lg"
+        variant="outline"
+        @update:model-value="emit('update:searchQuery', $event)"
+      />
+    </div>
+
+    <div class="flex items-center gap-1.5 bg-[var(--color-ui-surface)] rounded-[var(--radius-md)] p-1 border border-[var(--color-ui-border)] shadow-sm flex-wrap">
+      <button
+        v-for="f in filters"
+        :key="f.value"
+        class="px-3 py-1.5 text-sm font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+        :class="modelValue === f.value
+          ? 'bg-[var(--color-brand-50)] text-[var(--color-brand-600)]'
+          : 'text-[var(--color-ui-muted)] hover:text-[var(--color-ui-text)] hover:bg-[var(--color-ui-hover)]'"
+        @click="emit('update:modelValue', f.value)"
+      >
+        {{ f.label }}
+      </button>
+    </div>
+
+    <div class="flex items-center gap-1 bg-[var(--color-ui-surface)] rounded-[var(--radius-md)] p-1 border border-[var(--color-ui-border)] shadow-sm ml-auto">
+      <span class="px-2 text-xs text-[var(--color-ui-subtle)] font-medium">State:</span>
+      <button
+        v-for="s in states"
+        :key="s.value"
+        class="px-2 py-1 text-xs font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+        :class="appState === s.value
+          ? 'bg-[var(--color-brand-50)] text-[var(--color-brand-600)]'
+          : 'text-[var(--color-ui-subtle)] hover:text-[var(--color-ui-text)]'"
+        @click="emit('update:appState', s.value)"
+      >
+        {{ s.label }}
+      </button>
+    </div>
+  </div>
+</template>

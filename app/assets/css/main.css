@@ -1,0 +1,62 @@
+@import "./theme.css";
+
+@layer base {
+  * {
+    border-color: var(--color-ui-border);
+  }
+
+  body {
+    background-color: var(--color-ui-bg);
+    color: var(--color-ui-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-sans);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility card {
+  background-color: var(--color-ui-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-ui-border);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+@utility badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+}
+
+@utility text-muted {
+  color: var(--color-ui-muted);
+}
+
+@utility text-subtle {
+  color: var(--color-ui-subtle);
+}
+
+@utility text-highlighted {
+  color: var(--color-ui-text);
+}
+
+@utility bg-surface {
+  background-color: var(--color-ui-surface);
+}
+
+@utility bg-hover {
+  background-color: var(--color-ui-hover);
+}
+
+@utility border-default {
+  border-color: var(--color-ui-border);
+}
