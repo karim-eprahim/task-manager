@@ -81,30 +81,26 @@ export const useTaskStore = defineStore('task', () => {
   }
 
   function initializeTasks() {
+    const stored = localStorage.getItem('task-manager-store')
+    if (stored) {
+      appState.value = 'data'
+      return
+    }
+
     appState.value = 'loading'
 
     setTimeout(async () => {
-      try {
-        const shouldFail = Math.random() < 0.3
+      const initial: TaskFormData[] = [
+        { title: 'Review quarterly report', description: 'Compile and review Q3 financial metrics', status: 'in-progress', dueDate: '2026-08-05' },
+        { title: 'Update onboarding docs', description: 'Revise the new hire onboarding guide', status: 'pending', dueDate: '2026-08-10' },
+        { title: 'Deploy API v2', description: 'Ship the new API version to production', status: 'done', dueDate: '2026-07-28' },
+        { title: 'Design sprint planning', description: 'Prepare materials for the upcoming design sprint', status: 'pending', dueDate: '2026-08-12' },
+        { title: 'Fix login timeout bug', description: 'Users report session expiry after 5 minutes', status: 'in-progress', dueDate: '2026-08-03' },
+      ]
 
-        if (shouldFail) {
-          throw new Error('Failed to fetch tasks')
-        }
-
-        const initial: TaskFormData[] = [
-          { title: 'Review quarterly report', description: 'Compile and review Q3 financial metrics', status: 'in-progress', dueDate: '2026-08-05' },
-          { title: 'Update onboarding docs', description: 'Revise the new hire onboarding guide', status: 'pending', dueDate: '2026-08-10' },
-          { title: 'Deploy API v2', description: 'Ship the new API version to production', status: 'done', dueDate: '2026-07-28' },
-          { title: 'Design sprint planning', description: 'Prepare materials for the upcoming design sprint', status: 'pending', dueDate: '2026-08-12' },
-          { title: 'Fix login timeout bug', description: 'Users report session expiry after 5 minutes', status: 'in-progress', dueDate: '2026-08-03' },
-        ]
-
-        const created = await Promise.all(initial.map(data => taskService.create(data)))
-        tasks.value = created
-        appState.value = 'data'
-      } catch {
-        appState.value = 'error'
-      }
+      const created = await Promise.all(initial.map(data => taskService.create(data)))
+      tasks.value = created
+      appState.value = 'data'
     }, 2000)
   }
 
