@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Task, TaskFormData, TaskFilter, AppState } from '~/types/task'
 import { useTaskStore } from '~/stores/task'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const store = useTaskStore()
 const toast = useToast()
@@ -12,6 +13,14 @@ const deletingTaskId = ref<string | null>(null)
 const isSubmitting = ref(false)
 
 const { filteredTasks, filter, searchQuery, appState, stats } = storeToRefs(store)
+
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isMobile = breakpoints.smaller('sm')
+
+onMounted(() => {
+  store.initializeTasks()
+})
 
 const statCards = computed(() => [
   {
@@ -108,7 +117,7 @@ function handleSetAppState(state: AppState) {
 }
 
 function handleRetry() {
-  handleSetAppState('data')
+  store.initializeTasks()
 }
 
 watch(appState, (newState) => {
@@ -162,52 +171,57 @@ watch(appState, (newState) => {
 
       <!-- Controls & Filtering -->
       <section class="mb-6">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-          <div class="relative flex-1 w-full sm:max-w-xs">
-            <UInput
-              :model-value="searchQuery"
-              icon="i-lucide-search"
-              placeholder="Search tasks..."
-              class="w-full py-2"
-              :ui="{
-                base: 'py-2.5',
-              }"
-              size="lg"
-              variant="outline"
-              @update:model-value="handleSearch"
-            />
-          </div>
+  <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+    <!-- Filters -->
+    <div
+      class="order-1 sm:order-2 flex items-center gap-1.5 bg-ui-surface rounded-md p-1 border border-ui-border shadow-sm flex-wrap"
+    >
+      <button
+        v-for="f in ([
+          { value: 'all', label: 'All' },
+          { value: 'pending', label: 'Pending' },
+          { value: 'in-progress', label: 'In Progress' },
+          { value: 'done', label: 'Done' },
+        ] as const)"
+        :key="f.value"
+        class="px-3 py-1.5 text-sm font-medium rounded-sm transition-all duration-150"
+        :class="
+          filter === f.value
+            ? 'bg-brand-50 text-brand-600'
+            : 'text-muted hover:text-text hover:bg-hover'
+        "
+        @click="handleFilterChange(f.value)"
+      >
+        {{ f.label }}
+      </button>
+    </div>
 
-          <div class="flex items-center gap-1.5 bg-ui-surface rounded-md p-1 border border-ui-border shadow-sm flex-wrap">
-            <button
-              v-for="f in ([
-                { value: 'all', label: 'All' },
-                { value: 'pending', label: 'Pending' },
-                { value: 'in-progress', label: 'In Progress' },
-                { value: 'done', label: 'Done' },
-              ] as const)"
-              :key="f.value"
-              class="px-3 py-1.5 text-sm font-medium rounded-sm transition-all duration-150"
-              :class="filter === f.value
-                ? 'bg-brand-50 text-brand-600'
-                : 'text-muted hover:text-text hover:bg-hover'"
-              @click="handleFilterChange(f.value)"
-            >
-              {{ f.label }}
-            </button>
-          </div>
+    <!-- Search + Button -->
+    <div class="order-2 sm:order-1 flex w-full gap-3 sm:contents">
+      <div class="relative flex-1 sm:max-w-xs">
+        <UInput
+          :model-value="searchQuery"
+          icon="i-lucide-search"
+          placeholder="Search tasks..."
+          class="w-full"
+          :ui="{ base: 'py-2.5' }"
+          size="lg"
+          variant="outline"
+          @update:model-value="handleSearch"
+        />
+      </div>
 
-          <UButton
-            color="primary"
-            size="lg"
-            label="New Task"
-            icon="i-lucide-plus"
-            class="shrink-0 ml-auto lg:px-8 text-white"
-            @click="openAddModal"
-          />
-        </div>
-      </section>
-
+      <UButton
+        color="primary"
+        :size="isMobile ? 'sm' : 'lg'"
+        label="New Task"
+        icon="i-lucide-plus"
+        class="shrink-0 sm:ml-auto lg:px-8 text-white order-3"
+        @click="openAddModal"
+      />
+    </div>
+  </div>
+</section>
       <!-- Error State -->
       <div v-if="appState === 'error'" class="py-12">
         <div class="flex flex-col items-center justify-center gap-4">
