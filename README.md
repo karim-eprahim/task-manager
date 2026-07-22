@@ -23,7 +23,6 @@ A modern Task Management application built with Nuxt 4.
 - Error state
 - Empty state
 - Dark / Light mode
-- English / Arabic support
 - Responsive design
 
 ## Installation
