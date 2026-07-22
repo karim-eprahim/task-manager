@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Task, TaskFormData, TaskStatus } from '~/types/task'
-import { validateTaskTitle } from '~/utils/validation'
+import { validateTaskTitle, validateDueDate } from '~/utils/validation'
 
 const props = defineProps<{
   open: boolean
@@ -21,6 +21,7 @@ const formData = ref<TaskFormData>({
 })
 
 const titleError = ref<string | null>(null)
+const dueDateError = ref<string | null>(null)
 
 watchEffect(() => {
   if (props.open) {
@@ -40,6 +41,7 @@ watchEffect(() => {
       }
     }
     titleError.value = null
+    dueDateError.value = null
   }
 })
 
@@ -51,7 +53,8 @@ const statusOptions = [
 
 function validate(): boolean {
   titleError.value = validateTaskTitle(formData.value.title)
-  return titleError.value === null
+  dueDateError.value = validateDueDate(formData.value.dueDate)
+  return titleError.value === null && dueDateError.value === null
 }
 
 function handleSubmit() {
@@ -100,7 +103,7 @@ const title = computed(() => props.task ? 'Edit Task' : 'Add Task')
             />
           </UFormField>
 
-          <UFormField label="Due Date">
+          <UFormField label="Due Date" :error="dueDateError || false">
             <UInput
               v-model="formData.dueDate"
               type="date"

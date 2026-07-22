@@ -168,7 +168,10 @@ watch(appState, (newState) => {
               :model-value="searchQuery"
               icon="i-lucide-search"
               placeholder="Search tasks..."
-              class="w-full"
+              class="w-full py-2"
+              :ui="{
+                base: 'py-2.5',
+              }"
               size="lg"
               variant="outline"
               @update:model-value="handleSearch"
