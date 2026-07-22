@@ -13,10 +13,6 @@ const isSubmitting = ref(false)
 
 const { filteredTasks, filter, searchQuery, appState, stats } = storeToRefs(store)
 
-onMounted(() => {
-  store.seedDemoData()
-})
-
 const statCards = computed(() => [
   {
     label: 'All Tasks',
